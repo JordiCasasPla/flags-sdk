@@ -1,0 +1,30 @@
+{
+  "name": "flags-core",
+  "version": "0.0.1",
+  "description": "Core logic for Flags SDK",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun run build.ts && tsc -p tsconfig.build.json",
+    "test": "bun test",
+    "dev": "bun run build.ts --watch"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
