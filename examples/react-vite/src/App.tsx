@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import { useFlags } from 'react-sdk'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const { isEnabled: isNewFeatureEnabled, isLoading } = useFlags('new-feature')
+  const { isEnabled: isNewFeatureEnabled, isLoading } = useFlags('first-flag')
 
   return (
     <>

@@ -3,7 +3,7 @@ import { version } from "./package.json";
 export const API_BASE_URL = "http://localhost:3000/api/sdk";
 export const APP_BASE_URL = "http://localhost:3000/api/sdk";
 
-export const SDK_VERSION_HEADER_NAME = "haues-flags-sdk-version";
+export const SDK_VERSION_HEADER_NAME = "hauses-flags-sdk-version";
 
 export const SDK_VERSION = `browser-sdk/${version}`;
 export const FLAG_EVENTS_PER_MIN = 1;
