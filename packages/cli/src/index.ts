@@ -3,13 +3,14 @@ import { Command } from "commander";
 import { HttpClient, parseFlagsResponse } from "flags-core";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
+import { version } from '../package.json'
 
 const program = new Command();
 
 program
   .name("flags-cli")
   .description("CLI to generate types for Flags SDK")
-  .version("0.0.1");
+  .version(version);
 
 program
   .command("pull")
@@ -41,7 +42,6 @@ program
       console.log("Fetching flags...");
       const client = new HttpClient(key);
 
-      // Fetch flags with empty context to get all available flags
       const response = await client.post({
         path: "flags",
         body: {},
@@ -53,7 +53,6 @@ program
 
       const data = await response.json();
 
-      // parseFlagsResponse returns a Record<string, Flag>
       const flags = parseFlagsResponse(data as any);
       const flagKeys = Object.keys(flags);
 
