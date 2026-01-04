@@ -1,26 +1,49 @@
 {
-  "name": "flags-cli",
-  "version": "0.0.1",
-  "description": "CLI tool for Flags SDK to generate types",
+  "name": "@hauses/flags-cli",
+  "version": "0.1.0",
+  "description": "CLI tool for Flags SDK to generate TypeScript type definitions",
+  "author": "Jordi Casas <jordi.casas004@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://flags.hauses.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JordiCasasPla/flags-sdk.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/JordiCasasPla/flags-sdk/issues"
+  },
+  "keywords": [
+    "feature-flags",
+    "cli",
+    "typescript",
+    "codegen",
+    "flags"
+  ],
   "type": "module",
   "bin": {
     "flags-cli": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
-    "build": "bun build ./src/index.ts --outfile=dist/index.js --target=node",
+    "build": "bun build ./src/index.ts --outfile=dist/index.js --target=node && sed -i '' '1s|#!/usr/bin/env bun|#!/usr/bin/env node|' dist/index.js && chmod +x dist/index.js",
     "start": "bun run ./src/index.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "commander": "^12.0.0",
-    "flags-core": "workspace:*"
+    "@hauses/flags-core": "^0.1.0",
+    "commander": "^12.0.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^20.0.0",
     "typescript": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

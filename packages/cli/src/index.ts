@@ -1,9 +1,10 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 import { Command } from "commander";
-import { HttpClient, parseFlagsResponse } from "flags-core";
+import { HttpClient, parseFlagsResponse } from "@hauses/flags-core";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
-import { version } from '../package.json'
+
+const version = "0.1.0";
 
 const program = new Command();
 
@@ -60,14 +61,14 @@ program
         console.warn("Warning: No flags found.");
       }
 
-      const typeDefinition = `import "react-sdk";
+      const typeDefinition = `import "@hauses/react-sdk";
 
-declare module "react-sdk" {
-  export interface FlagValues {
-${flagKeys.map((key) => `    "${key}": boolean;`).join("\n")}
-  }
-}
-`;
+      declare module "@hauses/react-sdk" {
+        export interface FlagValues {
+      ${flagKeys.map((key) => `    "${key}": boolean;`).join("\n")}
+        }
+      }
+      `;
 
       const outputPath = path.resolve(process.cwd(), out);
       await writeFile(outputPath, typeDefinition);

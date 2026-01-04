@@ -5,7 +5,7 @@ import {
   type FlagsContext as SDKContext,
   type RawFlags,
   type HttpClientOptions,
-} from "flags-core";
+} from "@hauses/flags-core";
 
 export interface FlagValues {}
 

@@ -1,0 +1,36 @@
+# Source files
+src/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Build config
+tsconfig.json
+tsconfig.build.json
+build.ts
+CLAUDE.md
+
+# Development
+node_modules/
+.DS_Store
+*.log
+.env
+.env.*
+
+# Version control
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+.nyc_output/
+
+# Bun
+bun.lock

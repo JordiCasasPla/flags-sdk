@@ -16,12 +16,13 @@
       "name": "react-vite",
       "version": "0.0.0",
       "dependencies": {
+        "@hauses/react-sdk": "workspace:*",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
-        "react-sdk": "workspace:*",
       },
       "devDependencies": {
         "@eslint/js": "^9.39.1",
+        "@hauses/flags-cli": "workspace:*",
         "@types/node": "^24.10.1",
         "@types/react": "^19.2.5",
         "@types/react-dom": "^19.2.3",
@@ -30,7 +31,6 @@
         "eslint": "^9.39.1",
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react-refresh": "^0.4.24",
-        "flags-cli": "workspace:*",
         "globals": "^16.5.0",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.46.4",
@@ -38,14 +38,14 @@
       },
     },
     "packages/cli": {
-      "name": "flags-cli",
-      "version": "0.0.1",
+      "name": "@hauses/flags-cli",
+      "version": "0.1.0",
       "bin": {
         "flags-cli": "./dist/index.js",
       },
       "dependencies": {
+        "@hauses/flags-core": "^0.1.0",
         "commander": "^12.0.0",
-        "flags-core": "workspace:*",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -54,8 +54,8 @@
       },
     },
     "packages/flags-core": {
-      "name": "flags-core",
-      "version": "0.0.1",
+      "name": "@hauses/flags-core",
+      "version": "0.1.0",
       "devDependencies": {
         "@types/bun": "latest",
         "typescript": "^5.9.3",
@@ -65,10 +65,10 @@
       },
     },
     "packages/react-sdk": {
-      "name": "react-sdk",
-      "version": "0.0.1",
+      "name": "@hauses/react-sdk",
+      "version": "0.1.0",
       "dependencies": {
-        "flags-core": "workspace:*",
+        "@hauses/flags-core": "^0.1.0",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -78,8 +78,8 @@
         "typescript": "^5.0.0",
       },
       "peerDependencies": {
-        "react": "^19",
-        "react-dom": "^19",
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
       },
     },
   },
@@ -145,6 +145,12 @@
     "@eslint/object-schema": ["@eslint/object-schema@2.1.7", "", {}, "sha512-VtAOaymWVfZcmZbp6E2mympDIHvyjXs/12LqWYjVw6qjrfF+VK+fyG33kChz3nnK+SU5/NeHOqrTEHS8sXO3OA=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.4.1", "", { "dependencies": { "@eslint/core": "^0.17.0", "levn": "^0.4.1" } }, "sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA=="],
+
+    "@hauses/flags-cli": ["@hauses/flags-cli@workspace:packages/cli"],
+
+    "@hauses/flags-core": ["@hauses/flags-core@workspace:packages/flags-core"],
+
+    "@hauses/react-sdk": ["@hauses/react-sdk@workspace:packages/react-sdk"],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 
@@ -346,10 +352,6 @@
 
     "find-up": ["find-up@5.0.0", "", { "dependencies": { "locate-path": "^6.0.0", "path-exists": "^4.0.0" } }, "sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng=="],
 
-    "flags-cli": ["flags-cli@workspace:packages/cli"],
-
-    "flags-core": ["flags-core@workspace:packages/flags-core"],
-
     "flat-cache": ["flat-cache@4.0.1", "", { "dependencies": { "flatted": "^3.2.9", "keyv": "^4.5.4" } }, "sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw=="],
 
     "flatted": ["flatted@3.3.3", "", {}, "sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg=="],
@@ -467,8 +469,6 @@
     "react-dom": ["react-dom@19.2.3", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.3" } }, "sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg=="],
 
     "react-refresh": ["react-refresh@0.18.0", "", {}, "sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw=="],
-
-    "react-sdk": ["react-sdk@workspace:packages/react-sdk"],
 
     "react-vite": ["react-vite@workspace:examples/react-vite"],
 
