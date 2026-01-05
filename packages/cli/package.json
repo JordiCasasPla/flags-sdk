@@ -1,6 +1,6 @@
 {
   "name": "@hauses/flags-cli",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "CLI tool for Flags SDK to generate TypeScript type definitions",
   "author": "Jordi Casas <jordi.casas004@gmail.com>",
   "license": "MIT",

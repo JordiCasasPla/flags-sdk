@@ -1,6 +1,6 @@
 {
   "name": "@hauses/flags-core",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Core logic for Flags SDK - Lightweight feature flags for JavaScript and TypeScript",
   "author": "Jordi Casas <jordi.casas004@gmail.com>",
   "license": "MIT",

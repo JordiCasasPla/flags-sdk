@@ -1,7 +1,7 @@
 import { version } from "./package.json";
 
-export const API_BASE_URL = "http://app.flags.hauses.dev/api/sdk";
-export const APP_BASE_URL = "http://app.flags.hauses.dev/api/sdk";
+export const API_BASE_URL = "https://app.flags.hauses.dev/api/sdk";
+export const APP_BASE_URL = "https://app.flags.hauses.dev/api/sdk";
 
 export const SDK_VERSION_HEADER_NAME = "hauses-flags-sdk-version";
 

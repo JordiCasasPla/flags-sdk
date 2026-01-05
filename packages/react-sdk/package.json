@@ -1,6 +1,6 @@
 {
   "name": "@hauses/react-sdk",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "React SDK for Flags - Type-safe feature flags with hooks",
   "author": "Jordi Casas <jordi.casas004@gmail.com>",
   "license": "MIT",
