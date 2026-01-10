@@ -135,20 +135,17 @@ export class HausesFlagsClient {
     return this.flags;
   }
 
-  async sendEvent(
-    event: Events,
-    payload: EventPayload<Events>,
+  async sendEvent<T extends Events>(
+    event: T,
+    payload: EventPayload<'check_flag_access'>,
     callback?: () => void,
   ) {
     try {
-      const rateLimitKey =
-        event === "check_flag_access"
-          ? `${event}:${(payload as CheckFlagAccessPayload).flagKey}`
-          : event;
+      const rateLimitKey = `${event}:${(payload as CheckFlagAccessPayload).flagKey}`
 
       const canFetch = this.rateLimiter.rateLimited(rateLimitKey, () => true);
 
-      if (!canFetch) {
+      if (!canFetch || event !== "check_flag_access") {
         return;
       }
 
@@ -157,10 +154,7 @@ export class HausesFlagsClient {
         body: {
           event,
           payload,
-          context: (payload as any).context, // context is part of payload for check_flag_access, but for user_context payload IS context.
-                                             // Wait, the API expects { event, payload, context }.
-                                             // For check_flag_access: payload is { flagKey, context }. So context is payload.context.
-                                             // For user_context: payload is FlagsContext. So context is payload.
+          context: payload.context!
         },
         headers: {
             'Authorization': `Bearer ${this.config.secretKey}`,
@@ -170,13 +164,11 @@ export class HausesFlagsClient {
       });
 
       if (!response.ok) {
-        // throw new Error("Failed to send event");
         this.logger.error("Failed to send event", response.status);
       }
 
       callback?.();
     } catch (e) {
-      // Swallow errors for now
       this.logger.error("Unable to send event", e);
     }
   }

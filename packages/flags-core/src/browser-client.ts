@@ -75,7 +75,6 @@ export class FlagsClient {
     }
     this.initialized = true;
     await this.fetchFlags();
-    void this.sendEvent("user_context", this.context);
   }
 
   setContext(context: FlagsContext) {

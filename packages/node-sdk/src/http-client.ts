@@ -26,7 +26,7 @@ export const HttpClient = {
       data,
     }
   },
-  post: async<TBody, TResponse>({ url, body, headers, timeoutMs = 10_000 }: { url: string, body: TBody, headers?: Record<string, string>, timeoutMs: number }): Promise<HttpResponse<TResponse>> => {
+  post: async<TBody, TResponse>({ url, body, headers, timeoutMs = 10_000 }: { url: string, body: TBody, headers?: Record<string, string>, timeoutMs: number }): Promise<HttpResponse< TResponse | null>> => {
     invariant(isObject(headers), 'HttpClient: headers must be an object')
     invariant(typeof url === 'string' && url.length > 0, 'HttpClient: url must be a non-empty string')
 
@@ -37,7 +37,15 @@ export const HttpClient = {
       body: JSON.stringify(body),
     })
 
-    const data = await response.json() as TResponse
+    let data: TResponse | null = null
+    const contentType = response.headers.get('content-type')
+
+     if (contentType?.includes('application/json')) {
+       const text = await response.text()
+       if (text) {
+         data = JSON.parse(text) as TResponse
+       }
+     }
 
     return {
       ok: response.ok,
