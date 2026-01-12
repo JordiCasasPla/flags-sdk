@@ -2,7 +2,7 @@
 
 A lightweight, type-safe feature flags SDK for JavaScript and React applications. Manage feature flags with real-time updates and powerful targeting capabilities.
 
-🌐 **Website:** [flags.hauses.dev](https://flags.hauses.dev)
+🌐 **Website:** [app.flags.hauses.dev](https://flags.hauses.dev)
 
 ## Features
 
@@ -52,7 +52,7 @@ bun add flags-core
 
 ### 1. Get your Publishable Key
 
-Sign up at [flags.hauses.dev](https://flags.hauses.dev) and get your publishable key from the dashboard.
+Sign up at [app.flags.hauses.dev](https://app.flags.hauses.dev) and get your publishable key from the dashboard.
 
 ### 2. Set up your environment
 
@@ -168,7 +168,7 @@ Wrap your app with the `FlagsProvider` to make flags available throughout your c
     company: { key: 'company-id', name: 'Company Name' }
   }}
   options={{
-    baseUrl: 'https://flags.hauses.dev/api', // optional
+    baseUrl: 'https://app.flags.hauses.dev/api', // optional
     credentials: 'include' // optional
   }}
 >
@@ -177,7 +177,7 @@ Wrap your app with the `FlagsProvider` to make flags available throughout your c
 ```
 
 **Props:**
-- `publishableKey` (string, required) - Your publishable key from flags.hauses.dev
+- `publishableKey` (string, required) - Your publishable key from app.flags.hauses.dev
 - `context` (object, optional) - User and company context for targeting
 - `options` (object, optional) - HTTP client configuration options
 
@@ -353,7 +353,7 @@ MIT
 ## Support
 
 - 📧 Email: jordi.casas004@gmail.com
-- 🌐 Website: [flags.hauses.dev](https://flags.hauses.dev)
+- 🌐 Website: [app.flags.hauses.dev](https://app.flags.hauses.dev)
 - 📖 Documentation: [flags.hauses.dev/docs](https://flags.hauses.dev/docs)
 - 🐛 Issues: [GitHub Issues](https://github.com/JordiCasasPla/flags-sdk/issues)
 

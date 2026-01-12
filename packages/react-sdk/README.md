@@ -119,7 +119,7 @@ interface FlagsProviderProps {
     }
   }}
   options={{
-    baseUrl: 'https://flags.hauses.dev/api',
+    baseUrl: 'https://app.flags.hauses.dev/api',
     credentials: 'include'
   }}
 >

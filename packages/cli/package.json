@@ -4,7 +4,7 @@
   "description": "CLI tool for Flags SDK to generate TypeScript type definitions",
   "author": "Jordi Casas <jordi.casas004@gmail.com>",
   "license": "MIT",
-  "homepage": "https://flags.hauses.dev",
+  "homepage": "https://app.flags.hauses.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JordiCasasPla/flags-sdk.git",
