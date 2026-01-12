@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "flags:pull": "bun --env-file=.env flags-cli pull --env VITE_FLAGS_PUBLISHABLE_KEY --out src/flags.d.ts"
+    "flags:pull": "bun flags-cli pull --out src/flags.d.ts",
+    "flags:login": "bun flags-cli login"
   },
   "dependencies": {
     "react": "^19.2.0",

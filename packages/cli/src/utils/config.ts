@@ -40,7 +40,7 @@ export async function loadConfig(): Promise<GlobalConfig> {
   try {
     const content = await readFile(CONFIG_FILE, "utf-8");
     return JSON.parse(content);
-  } catch (error) {
+  } catch {
     return {};
   }
 }

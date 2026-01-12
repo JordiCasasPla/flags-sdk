@@ -1,60 +1,62 @@
+import http from "node:http";
+import { APP_BASE_URL } from "@hauses/flags-core";
 import { Command } from "commander";
 import open from "open";
 import { saveConfig } from "../utils/config";
-import { APP_BASE_URL } from "@hauses/flags-core";
 
 const LOGIN_PORT = 8910;
 const LOGIN_CALLBACK_URL = `http://localhost:${LOGIN_PORT}`;
-// Assuming APP_BASE_URL points to api/sdk, we need the app url. 
-// Based on grep output: https://app.flags.hauses.dev/api/sdk
-// We want: https://app.flags.hauses.dev/cli/login
 const AUTH_URL = APP_BASE_URL.replace("/api/sdk", "/cli/login");
 
 export const loginCommand = new Command("login")
-  .description("Login to Flags")
+  .description("Login to Flags CLI")
   .action(async () => {
     console.log("Waiting for authentication...");
 
-    const server = Bun.serve({
-      port: LOGIN_PORT,
-      async fetch(req) {
-        const url = new URL(req.url);
-        const key = url.searchParams.get("key");
+    const server = http.createServer(async (req, res) => {
+      const url = new URL(req.url || "", `http://localhost:${LOGIN_PORT}`);
+      const token = url.searchParams.get("token");
+      const error = url.searchParams.get("error");
 
-        if (key) {
-          try {
-            await saveConfig({ 
-              auth: {
-                key,
-                type: "publishable",
-                host: APP_BASE_URL
-              }
-            });
-            console.log("✅ Successfully logged in!");
-            
-            // Allow time for the response to be sent before shutting down
-            setTimeout(() => {
-                server.stop();
-                process.exit(0);
-            }, 100);
+      if (error) {
+        console.error(`Authentication failed: ${error}`);
+        server.close();
+        process.exit(1);
+      }
 
-            return new Response(
-              "<html><body><h1>Authentication successful!</h1><p>You can close this tab and return to the terminal.</p><script>window.close()</script></body></html>",
-              { headers: { "Content-Type": "text/html" } }
-            );
-          } catch (error) {
-            console.error("❌ Failed to save credentials", error);
-            return new Response("Internal Server Error", { status: 500 });
-          }
+      if (token) {
+        try {
+          await saveConfig({
+            auth: {
+              key: token,
+              type: "user"
+            }
+          });
+          console.log("Successfully logged in!");
+
+          setTimeout(() => {
+            server.close();
+            process.exit(0);
+          }, 100);
+
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end("<html><body><h1>Authentication successful!</h1><p>You can close this tab and return to the terminal.</p></body></html>");
+          return;
+        } catch (err) {
+          console.error("Failed to save credentials:", err);
+          res.writeHead(500);
+          res.end("Internal Server Error");
+          return;
         }
+      }
 
-        return new Response("Missing key parameter", { status: 400 });
-      },
+      res.writeHead(400);
+      res.end("Missing token");
     });
 
-    const loginUrl = `${AUTH_URL}?callback=${LOGIN_CALLBACK_URL}`;
-    console.log(`Opening browser to: ${loginUrl}`);
-    await open(loginUrl);
-    
-    // Keep process alive
+    server.listen(LOGIN_PORT, () => {
+      const loginUrl = `${AUTH_URL}?callback=${LOGIN_CALLBACK_URL}`;
+      console.log(`Opening browser: ${loginUrl}`);
+      open(loginUrl);
+    });
   });
