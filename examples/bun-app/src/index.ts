@@ -16,10 +16,10 @@ const client = new HausesFlagsClient({
 // Mock context for a user
 const context = {
   user: {
-    key: "18",
+    key: "user_12345",
   },
   company: {
-    key: "company-456",
+    key: "company_67890",
   },
 };
 

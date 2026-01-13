@@ -6,7 +6,7 @@ import { saveConfig } from "../utils/config";
 
 const LOGIN_PORT = 8910;
 const LOGIN_CALLBACK_URL = `http://localhost:${LOGIN_PORT}`;
-const AUTH_URL = APP_BASE_URL.replace("/api/sdk", "/cli/login");
+const AUTH_URL = APP_BASE_URL.replace("/api/sdk", "/api/cli/login");
 
 export const loginCommand = new Command("login")
   .description("Login to Flags CLI")

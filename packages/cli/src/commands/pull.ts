@@ -30,7 +30,7 @@ export const pullCommand = new Command("pull")
 
 		try {
 			console.log("Fetching flags...");
-			const client = new HttpClient(key, { baseUrl: APP_BASE_URL });
+			const client = new HttpClient(key, { baseUrl: APP_BASE_URL.replace("/api/sdk", "/api/cli/") });
 
 			const response = await client.post({
 				path: "flags",
