@@ -1,10 +1,15 @@
+import { ConsoleLogger, type Logger } from "./logger";
+
 const ONE_SECOND_MS = 1000;
 const ONE_MINUTE = 60 * ONE_SECOND_MS;
 
 export default class RateLimiter {
   private events: Record<string, number[]> = {};
 
-  constructor(private eventsPerMinute: number) {}
+  constructor(
+    private eventsPerMinute: number,
+    private logger: Logger = new ConsoleLogger(),
+  ) { }
 
   public rateLimited<R>(key: string, func: () => R): R | undefined {
     const date = Date.now();
@@ -20,7 +25,7 @@ export default class RateLimiter {
     }
 
     if (events.length >= this.eventsPerMinute) {
-      console.warn(`Rate limit exceeded for key: ${key}`);
+      this.logger.warn(`Rate limit exceeded for key: ${key}`);
       return undefined;
     }
 

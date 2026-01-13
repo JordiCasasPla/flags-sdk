@@ -51,9 +51,6 @@ export class HausesFlagsClient {
 		if (config.defaultFlags) {
 			this.flags = Object.values(config.defaultFlags);
 		}
-
-		this.initialize();
-		console.log("flags", this.flags);
 	}
 
 	/**
@@ -103,8 +100,6 @@ export class HausesFlagsClient {
 	}
 
 	async fetchFlags(): Promise<void> {
-		if (this.isFetching) return;
-
 		try {
 			this.isFetching = true;
 			this.logger.log("Fetching flags...");

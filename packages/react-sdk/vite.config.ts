@@ -20,7 +20,13 @@ export default defineConfig({
       formats: ["es"],
     },
     rollupOptions: {
-      external: ["react", "react-dom", "@hauses/flags-core"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react-dom/client",
+        "@hauses/flags-core"
+      ],
       output: {
         globals: {
           react: "React",

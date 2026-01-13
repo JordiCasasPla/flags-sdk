@@ -12,6 +12,8 @@ const client = new HausesFlagsClient({
   debug: true
 });
 
+await client.initialize();
+
 
 // Mock context for a user
 const context = {

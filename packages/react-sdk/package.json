@@ -42,6 +42,7 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^2.1.6",
     "@hauses/flags-core": "^0.1.0"
   },
   "peerDependencies": {

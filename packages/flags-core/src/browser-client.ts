@@ -1,6 +1,8 @@
-import { HttpClient, type HttpClientOptions } from "./http-client";
-import type { FlagsContext } from "./context";
 import { FLAG_EVENTS_PER_MIN } from "../config";
+import type { FlagsContext } from "./context";
+import { HttpClient, type HttpClientOptions } from "./http-client";
+import { ConsoleLogger, type Logger } from "./logger";
+import { getAllOverrides, getOverride } from "./override-flags";
 import RateLimiter from "./rate-limiter";
 
 type Events = "user_context" | "check_flag_access";
@@ -13,8 +15,8 @@ type CheckFlagAccessPayload = {
 type EventPayload<T extends Events> = T extends "user_context"
   ? FlagsContext
   : T extends "check_flag_access"
-    ? CheckFlagAccessPayload
-    : never;
+  ? CheckFlagAccessPayload
+  : never;
 
 export interface Flag {
   /**
@@ -43,6 +45,10 @@ export function parseFlagsResponse(data: Awaited<Promise<Flag[]>>): RawFlags {
   return flags;
 }
 
+export interface FlagsClientOptions extends HttpClientOptions {
+  logger?: Logger;
+}
+
 /**
  * @internal
  * For v1 lets ommit frontend cache so the cliens will fetch api directlly and api with redis will
@@ -52,21 +58,24 @@ export class FlagsClient {
   private initialized = false;
 
   private fetchedFlags: RawFlags = {};
-  private rateLimiter = new RateLimiter(FLAG_EVENTS_PER_MIN);
+  private rateLimiter: RateLimiter;
   private httpClient: HttpClient;
+  private logger: Logger;
 
   /**
    * Initializes the Flags client
    * @param publishableKey this is the publishable key to make requests to the api
    * @param context this context is used for the targeting and event tracking
-   * @param options this is the options for the http client
+   * @param options this is the options for the http client and logger
    */
   constructor(
     publishableKey: string,
     private context: FlagsContext,
-    options?: HttpClientOptions,
+    options?: FlagsClientOptions,
   ) {
+    this.logger = options?.logger ?? new ConsoleLogger();
     this.httpClient = new HttpClient(publishableKey, options);
+    this.rateLimiter = new RateLimiter(FLAG_EVENTS_PER_MIN, this.logger);
   }
 
   async initialize() {
@@ -82,10 +91,26 @@ export class FlagsClient {
   }
 
   getFlags() {
-    return this.fetchedFlags;
+    const overrides = getAllOverrides();
+    const mergedFlags: RawFlags = { ...this.fetchedFlags };
+
+    for (const [key, isEnabled] of Object.entries(overrides)) {
+      if (mergedFlags[key]) {
+        mergedFlags[key] = { ...mergedFlags[key], isEnabled };
+      } else {
+        mergedFlags[key] = { key, isEnabled };
+      }
+    }
+
+    return mergedFlags;
   }
 
   getFlag(key: string): boolean {
+    const override = getOverride(key);
+    if (override !== null) {
+      return override;
+    }
+
     const flag = this.fetchedFlags[key];
     const isEnabled = flag?.isEnabled ?? false;
 
@@ -120,7 +145,7 @@ export class FlagsClient {
       this.fetchedFlags = flags;
       return flags;
     } catch {
-      console.error("Error fetching flags");
+      this.logger.error("Error fetching flags");
     }
   }
 
@@ -157,7 +182,7 @@ export class FlagsClient {
       callback?.();
     } catch {
       // Swallow errors for now
-      console.error("Unable to send event");
+      this.logger.error("Unable to send event");
     }
   }
 }
